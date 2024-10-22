@@ -1,10 +1,11 @@
-import Button from "../components/UI/Button"
+import Button from "@/components/ui/Button"
+
 
 const AdminDashboard = () => {
 	return (
 		<div>
 
-			<Button lable="Button" className={""} variant="primary" disbled={false} onClick={() => { }} />
+			<Button label="Click me!" variant="primary" onClick={() => { }} disabled={false} className="" />
 		</div>
 	)
 }
