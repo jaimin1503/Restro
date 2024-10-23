@@ -1,6 +1,6 @@
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
-import AdminDashboard from './pages/AdminDashboard'
+import Order from './pages/user/Order'
 
 function App() {
 
@@ -9,7 +9,7 @@ function App() {
     <>
 
       <Routes>
-        <Route path="/" element={<AdminDashboard />} />
+        <Route path="/" element={<Order />} />
       </Routes>
     </>
   )
