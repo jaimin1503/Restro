@@ -34,9 +34,9 @@ enum Category {
 model User {
   id         Int      @id @default(autoincrement())
   name       String
-  email      String?
+  email      String? @unique
   password   String?
-  phoneNumber String
+  phoneNumber String @unique
   role       Role     @default(USER)
   orders     Order[]
   createdAt  DateTime @default(now())
@@ -64,7 +64,7 @@ model OrderItem {
 model Item {
   id         Int      @id @default(autoincrement())
   name       String
-  itemCode   String
+  itemCode   String @unique
   itemImage  String?
   price      Float
   categories Category[]
