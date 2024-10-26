@@ -5,10 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const authRoute_1 = __importDefault(require("./routes/authRoute"));
+const itemRoute_1 = __importDefault(require("./routes/itemRoute"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const port = 3000;
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-app.use("/api/v1", authRoute_1.default);
+app.use((0, cookie_parser_1.default)());
+app.use("/api/v1/auth", authRoute_1.default);
+app.use("/api/v1/item", itemRoute_1.default);
 app.get("/", (req, res) => {
     res.send("hello how are you");
 });

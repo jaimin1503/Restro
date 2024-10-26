@@ -8,9 +8,8 @@ interface SignupRequest {
     email?: string;       
     password?: string;     
     phoneNumber: string;
-    role?:Role;   
+    role?:Role;  
 }
-
  export const signup = async (req: Request, res: Response): Promise<void> => {
     try {
         const { name, email, password, phoneNumber,role }: SignupRequest = req.body;
@@ -93,6 +92,7 @@ try {
         userid: user.id,
         email: user.email,
         name: user.name,
+        role:user.role
       };
       if (!process.env.JWT_SECRET) {
         throw new Error("JWT_SECRET is not defined in the environment variables");
