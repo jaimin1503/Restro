@@ -100,6 +100,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             userid: user.id,
             email: user.email,
             name: user.name,
+            role: user.role
         };
         if (!process.env.JWT_SECRET) {
             throw new Error("JWT_SECRET is not defined in the environment variables");
