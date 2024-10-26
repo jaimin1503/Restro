@@ -1,0 +1,20 @@
+.card-container {
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+.card-content {
+  flex: 1;
+  margin-left: 1rem;
+}
