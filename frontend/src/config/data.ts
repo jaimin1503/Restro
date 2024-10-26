@@ -6,6 +6,9 @@ import pancake from "../assets/images/pancake.png";
 import coffee from "../assets/images/coffee.png";
 import frankie from "../assets/images/frankie.png";
 import salad from "../assets/images/salad.png";
+import Breakfast from "@/assets/svgs/Breakfast.svg";
+import Lunch from "@/assets/svgs/Lunch.svg";
+import Dinner from "@/assets/svgs/Dinner.svg";
 
 export const users = [
   {
@@ -135,7 +138,7 @@ export const items = [
     itemImage: pancake,
     price: 90.0,
     veg: true,
-    categories: ["BREAKFAST"],
+    categories: ["breakfast"],
     orderItems: [],
   },
   {
@@ -146,7 +149,7 @@ export const items = [
     itemImage: burger,
     veg: true,
     price: 100.0,
-    categories: ["LUNCH"],
+    categories: ["lunch"],
     orderItems: [],
   },
   {
@@ -157,7 +160,7 @@ export const items = [
     itemImage: steak,
     price: 2555.0,
     veg: false,
-    categories: ["DINNER"],
+    categories: ["dinner"],
     orderItems: [],
   },
   {
@@ -168,7 +171,7 @@ export const items = [
     itemImage: coffee,
     price: 150.0,
     veg: true,
-    categories: ["BREAKFAST"],
+    categories: ["breakfast"],
     orderItems: [],
   },
   {
@@ -179,7 +182,7 @@ export const items = [
     itemImage: sandwich,
     price: 80.0,
     veg: true,
-    categories: ["LUNCH"],
+    categories: ["lunch"],
     orderItems: [],
   },
   {
@@ -190,7 +193,7 @@ export const items = [
     itemImage: frankie,
     price: 120.0,
     veg: true,
-    categories: ["DINNER"],
+    categories: ["dinner"],
     orderItems: [],
   },
   {
@@ -201,7 +204,7 @@ export const items = [
     itemImage: salad,
     price: 70.0,
     veg: true,
-    categories: ["LUNCH"],
+    categories: ["lunch"],
     orderItems: [],
   },
   {
@@ -212,7 +215,25 @@ export const items = [
     itemImage: pizza,
     price: 280.0,
     veg: false,
-    categories: ["DINNER"],
+    categories: ["dinner"],
     orderItems: [],
+  },
+];
+
+export const categories = [
+  {
+    id: 1,
+    name: "breakfast",
+    categoryImage: Breakfast,
+  },
+  {
+    id: 2,
+    name: "lunch",
+    categoryImage: Lunch,
+  },
+  {
+    id: 3,
+    name: "dinner",
+    categoryImage: Dinner,
   },
 ];

@@ -6,6 +6,7 @@ import { LuHome } from "react-icons/lu";
 import { BiFoodMenu } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const UserNavigation = () => {
 	const { cartItems, totalQuantity } = useSelector((state: any) => state.cart);
@@ -62,12 +63,12 @@ const UserNavigation = () => {
 			<div className={`h-[50px] sm:hidden w-screen flex items-center bottom-0 fixed mb-[50px] bg-primary text-white`}>
 				<BsCart3 className="text-xl mx-4 cursor-pointer font-medium" />
 				<p>{totalQuantity} Items | &#8377; {cartTotal}</p>
-				<p className=" ml-auto mx-4 font-bold">View Cart</p>
+				<Link to="/cart" className=" ml-auto mx-4 font-bold">View Cart</Link>
 			</div>
 
 			<div className="sm:hidden h-[50px] shadow-lg w-screen flex items-center justify-evenly fixed bottom-0 bg-secondary">
 				{navItems.map((item, index) => (
-					<div
+					<Link to={item.LinkTo}
 						key={index}
 						className={`flex flex-col items-center justify-center cursor-pointer ${activeNav === item.LinkTo ? "text-background font-bold" : "text-white"
 							}`}
@@ -75,7 +76,7 @@ const UserNavigation = () => {
 					>
 						<item.navImage className="text-xl font-semibold" />
 						<p className="text-xs">{item.navName}</p>
-					</div>
+					</Link>
 				))}
 			</div>
 		</nav>
