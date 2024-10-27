@@ -69,6 +69,8 @@ model Item {
   itemImage  String @default("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiX5LjkyUPAgEGYLPpuDymckpDCMrxk0JXLw&s")
   price      Float
   quantity String?
+  ingredients String?
+  veg Boolean?
   categories Category[]
   orderItems OrderItem[]
 }
