@@ -3,6 +3,7 @@ import { WebSocketServer,WebSocket } from "ws";
 import http from "http";
 import authRouter from "./routes/authRoute";
 import itemRouter from "./routes/itemRoute"
+import adduserRouter from "./routes/addUseRoute"
 import cookiParser from "cookie-parser"
 import jwt from 'jsonwebtoken';
 const port=3000;
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(cookiParser());
 app.use("/api/v1/auth",authRouter)
 app.use("/api/v1/item",itemRouter)
+app.use("/api/v1/adduser",adduserRouter)
 app.get("/",(req:Request,res:Response)=>{
     res.send("hello how are you");
 })
