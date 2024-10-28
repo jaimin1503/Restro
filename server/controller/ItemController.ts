@@ -56,31 +56,30 @@ export const addItem=async(req:Request,res:Response):Promise<void>=>{
 }
 
 export const getPaginatedItems = async (req: Request, res: Response): Promise<void> => {
-      try {
-        const page = parseInt(req.query.page as string) || 1; // Default to page 1
-        const limit = parseInt(req.query.limit as string) || 10; // Default to 10 items per page
-        const startIndex = (page - 1) * limit;
-        const totalItems = await prisma.item.count();
-        const items = await prisma.item.findMany({
-          skip: startIndex,
-          take: limit,
-        });
-        res.status(200).json({
-          success: true,
-          page,
-          limit,
-          totalItems,
-          totalPages: Math.ceil(totalItems / limit),
-          items,
-        });
-        return 
-      } catch (error) {
-        res.status(500).json({
-          success: false,
-          message: "Error occurred while fetching items",
-          error
-        });
-        return
-      }
+//       try {
+//         const page = parseInt(req.query.page as string) || 1; // Default to page 1
+//         const limit = parseInt(req.query.limit as string) || 10; // Default to 10 items per page
+//         const startIndex = (page - 1) * limit;
+//         const totalItems = await prisma.item.count();
+//         const items = await prisma.item.findMany({
+//           skip: startIndex,
+//           take: limit,
+//         });
+//         res.status(200).json({
+//           success: true,
+//           page,
+//           limit,
+//           totalItems,
+//           totalPages: Math.ceil(totalItems / limit),
+//           items,
+//         });
+//         return 
+//       } catch (error) {
+//         res.status(500).json({
+//           success: false,
+//           message: "Error occurred while fetching items",
+//           error
+//         });
+//         return
+//       }
 };
-    

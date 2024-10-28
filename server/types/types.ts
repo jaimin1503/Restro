@@ -1,4 +1,5 @@
 import { Category } from "@prisma/client";
+import {Request} from 'express'
 export interface userPyload {
     userid:string
     email: string
@@ -12,4 +13,7 @@ export interface userPyload {
     quantity:string,
     itemCode:string,
     categories:Category[]
+}
+export interface CustomRequest extends Request {
+  user?: userPyload ; 
 }

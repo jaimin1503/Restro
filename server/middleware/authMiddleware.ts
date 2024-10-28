@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 interface CustomRequest extends Request {
   user?: string | object; // Add a user property to hold decoded token info
 }
-
 // Create the isLogin middleware that checks for the token in cookies
 export const isLogin = (req: CustomRequest, res: Response, next: NextFunction): void => {
   console.log("cookies",req.cookies," and headers",req.headers.authorization)

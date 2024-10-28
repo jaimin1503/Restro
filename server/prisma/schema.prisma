@@ -19,12 +19,20 @@ enum Role {
   ADMIN
 }
 
-enum Status {
+enum payStatus {
   PAID
   PENDING
   FAILED
 }
-
+enum orderStatus {
+  PENDING
+  SERVED
+  CANCEL
+}
+enum itemStatus {
+  AVAILABLE
+  OUT_OF_STOCK
+}
 enum Category {
   BREAKFAST
   LUNCH
@@ -47,8 +55,10 @@ model Order {
   user       User     @relation(fields: [userId], references: [id])
   userId     Int
   items      OrderItem[]
+  tabel String?
   totalPrice Float
-  status     Status   @default(PENDING)
+  status     orderStatus   @default(PENDING)
+  payment payStatus @default(PENDING)
   createdAt  DateTime @default(now())
 }
 
@@ -69,6 +79,9 @@ model Item {
   itemImage  String @default("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiX5LjkyUPAgEGYLPpuDymckpDCMrxk0JXLw&s")
   price      Float
   quantity String?
+  ingredients String?
+  veg Boolean?
+  status itemStatus @default(AVAILABLE)
   categories Category[]
   orderItems OrderItem[]
 }
