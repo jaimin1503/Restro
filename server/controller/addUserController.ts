@@ -2,6 +2,7 @@ import prisma from "../prismaconfig/prisma";
 import { Request, Response } from "express";
 import { CustomRequest } from "../types/types";
 import { Role } from "@prisma/client";
+import bcrypt from 'bcrypt';
 
 export const addUserByAdmin=async(req:CustomRequest,res:Response):Promise<void>=>{
     try {
@@ -25,11 +26,12 @@ export const addUserByAdmin=async(req:CustomRequest,res:Response):Promise<void>=
             });
             return
         }
+        const hashpassword=await bcrypt.hash(email,10);
         const addeduser=await prisma.user.create({
             data:{
                 name,
                 email,
-                password:email,
+                password:hashpassword,
                 role,
                 phoneNumber
             }
@@ -48,12 +50,57 @@ export const addUserByAdmin=async(req:CustomRequest,res:Response):Promise<void>=
         })
     }
 }
-export const changePassword=async(req:Request,res:Response):Promise<void>=>{
+
+export const changePassword=async(req:CustomRequest,res:Response):Promise<void>=>{
     try {
+        const {password,newPassword,confirmNewPassword}=req.body
+        if(!req.user?.userid){
+            res.status(401).json({
+                success:false,
+                message:"userid messing in req"
+            })
+            return
+        }
+        const userid=parseInt(req.user?.userid);
+        const user=await prisma.user.findUnique({
+            where:{id:userid}
+        })
+        if(!user){
+            res.status(400).json({
+                success:false,
+                message:"user does not found"
+            })
+            return
+        }
+        if(user?.password){
+            const passwordMatch = await bcrypt.compare(password, user.password);
+            if (!passwordMatch) {
+             res.status(401).json({
+                success: false,
+                message: "Invalid email or password. Please try again.",
+              });
+              return 
+            } 
+        }
         
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        const updatedPassword=await prisma.user.update({
+            where:{id:user.id},
+            data:{
+                password:hashedPassword
+            }
+        })
+        res.status(200).json({
+            suucess:true,
+            message:"password chenge successfully",
+            user:updatedPassword
+        })
     } catch (error) {
         res.status(400).json({
-            success:false
+            success:false,
+            message:"error accure in changePassword",
+            error
         })
     }
 }
