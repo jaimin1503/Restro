@@ -62,6 +62,7 @@ interface SignupRequest {
 export  const login =async(req:Request,res:Response):Promise<void>=>{
 try {
     const {email,password}=req.body;
+
     if(!email||!password){
         res.status(400).json({
             success:false,
@@ -71,6 +72,7 @@ try {
     const user=await prisma.user.findUnique({
         where:{email}
     })
+ 
     if(!user){
         res.status(404).json({
             success:false,
@@ -106,7 +108,6 @@ try {
         secure: true,
         sameSite: "none"
       };
-  
       // Set token in a cookie
       res.cookie("token", token, options);
   
@@ -131,5 +132,6 @@ try {
         message:"error accure while login",
         error
     })
+    return
 }
 }

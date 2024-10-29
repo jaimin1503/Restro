@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cookiParser());
 app.use("/api/v1/auth",authRouter)
 app.use("/api/v1/item",itemRouter)
-app.use("/api/v1/adduser",adduserRouter)
+app.use("/api/v1",adduserRouter)
 app.get("/",(req:Request,res:Response)=>{
     res.send("hello how are you");
 })
