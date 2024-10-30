@@ -54,6 +54,20 @@ export const addUserByAdmin=async(req:CustomRequest,res:Response):Promise<void>=
 export const changePassword=async(req:CustomRequest,res:Response):Promise<void>=>{
     try {
         const {password,newPassword,confirmNewPassword}=req.body
+        if(!password||!newPassword||!confirmNewPassword){
+            res.status(400).json({
+                success:false,
+                message:"please provide all credintial"
+            })
+            return
+        }
+        if(newPassword!=confirmNewPassword){
+            res.status(400).json({
+                status:false,
+                message:"newpassword and confirmPassword is not same"
+            })
+            return
+        }
         if(!req.user?.userid){
             res.status(401).json({
                 success:false,
@@ -84,7 +98,7 @@ export const changePassword=async(req:CustomRequest,res:Response):Promise<void>=
         }
         
         const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
         const updatedPassword=await prisma.user.update({
             where:{id:user.id},
             data:{

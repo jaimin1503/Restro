@@ -4,5 +4,5 @@ import { isAccess } from '../middleware/accessMiddleware';
 import { addUserByAdmin ,changePassword} from "../controller/addUserController";
 const router=express.Router();
 router.post("/adduser",isLogin,isAccess,addUserByAdmin);
-router.post("/adduser",isLogin,changePassword);
+router.post("/changepassword",isLogin,changePassword);
 export default router;
