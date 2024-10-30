@@ -4,34 +4,34 @@ import { CustomRequest } from "../types/types";
 import { Role } from "@prisma/client";
 import bcrypt from 'bcrypt';
 
-export const addUserByAdmin=async(req:CustomRequest,res:Response):Promise<void>=>{
+export const addUserByAdmin = async (req: CustomRequest, res: Response): Promise<void> => {
     try {
-        const {name,email,role,phoneNumber}:{name:string,email:string,password:string,role:Role,phoneNumber:string}=req.body
-        if(!req.user?.userid){
+        const { name, email, role, phoneNumber }: { name: string, email: string, password: string, role: Role, phoneNumber: string } = req.body
+        if (!req.user?.userid) {
             res.status(401).json({
-                success:false,
-                message:"userid messing in req"
+                success: false,
+                message: "userid messing in req"
             })
             return
         }
-        const userid=parseInt(req.user?.userid)
-        const user = await prisma.user.findUnique({
-            where: { id: userid }, 
+        const userid = parseInt(req.user?.userid)
+        const user = await prisma.staff.findUnique({
+            where: { id: userid },
         });
 
         if (!user) {
-             res.status(404).json({
+            res.status(404).json({
                 success: false,
                 message: "you are  not authenticate.",
             });
             return
         }
-        const hashpassword=await bcrypt.hash(email,10);
-        const addeduser=await prisma.user.create({
-            data:{
+        const hashpassword = await bcrypt.hash(email, 10);
+        const addeduser = await prisma.staff.create({
+            data: {
                 name,
                 email,
-                password:hashpassword,
+                password: hashpassword,
                 role,
                 phoneNumber
             }
@@ -44,77 +44,81 @@ export const addUserByAdmin=async(req:CustomRequest,res:Response):Promise<void>=
         return
     } catch (error) {
         res.status(500).json({
-            success:false,
-            message:"error accure in addCouter",
+            success: false,
+            message: "error accure in addCouter",
             error
         })
+    } finally {
+        await prisma.$disconnect();
     }
 }
 
-export const changePassword=async(req:CustomRequest,res:Response):Promise<void>=>{
+export const changePassword = async (req: CustomRequest, res: Response): Promise<void> => {
     try {
-        const {password,newPassword,confirmNewPassword}=req.body
-        if(!password||!newPassword||!confirmNewPassword){
+        const { password, newPassword, confirmNewPassword } = req.body
+        if (!password || !newPassword || !confirmNewPassword) {
             res.status(400).json({
-                success:false,
-                message:"please provide all credintial"
+                success: false,
+                message: "please provide all credintial"
             })
             return
         }
-        if(newPassword!=confirmNewPassword){
+        if (newPassword != confirmNewPassword) {
             res.status(400).json({
-                status:false,
-                message:"newpassword and confirmPassword is not same"
+                status: false,
+                message: "newpassword and confirmPassword is not same"
             })
             return
         }
-        if(!req.user?.userid){
+        if (!req.user?.userid) {
             res.status(401).json({
-                success:false,
-                message:"userid messing in req"
+                success: false,
+                message: "userid messing in req"
             })
             return
         }
-        const userid=parseInt(req.user?.userid);
-        const user=await prisma.user.findUnique({
-            where:{id:userid}
+        const userid = parseInt(req.user?.userid);
+        const user = await prisma.staff.findUnique({
+            where: { id: userid }
         })
-        if(!user){
+        if (!user) {
             res.status(400).json({
-                success:false,
-                message:"user does not found"
+                success: false,
+                message: "user does not found"
             })
             return
         }
-        if(user?.password){
+        if (user?.password) {
             const passwordMatch = await bcrypt.compare(password, user.password);
             if (!passwordMatch) {
-             res.status(401).json({
-                success: false,
-                message: "Invalid email or password. Please try again.",
-              });
-              return 
-            } 
+                res.status(401).json({
+                    success: false,
+                    message: "Invalid email or password. Please try again.",
+                });
+                return
+            }
         }
-        
+
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
-        const updatedPassword=await prisma.user.update({
-            where:{id:user.id},
-            data:{
-                password:hashedPassword
+        const updatedPassword = await prisma.staff.update({
+            where: { id: user.id },
+            data: {
+                password: hashedPassword
             }
         })
         res.status(200).json({
-            suucess:true,
-            message:"password chenge successfully",
-            user:updatedPassword
+            suucess: true,
+            message: "password chenge successfully",
+            user: updatedPassword
         })
     } catch (error) {
         res.status(400).json({
-            success:false,
-            message:"error accure in changePassword",
+            success: false,
+            message: "error accure in changePassword",
             error
         })
-    }
+    }finally {
+        await prisma.$disconnect();
+      }
 }
