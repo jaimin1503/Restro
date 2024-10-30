@@ -138,6 +138,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             message: "error accure while login",
             error
         });
+        return;
     }
 });
 exports.login = login;
