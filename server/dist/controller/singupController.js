@@ -27,7 +27,7 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             return;
         }
         if (email) {
-            const existingUser = yield prisma_1.default.user.findUnique({
+            const existingUser = yield prisma_1.default.staff.findUnique({
                 where: { email }
             });
             if (existingUser) {
@@ -40,7 +40,7 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             const saltRounds = 10;
             hashedPassword = yield bcrypt_1.default.hash(password, saltRounds);
         }
-        const newUser = yield prisma_1.default.user.create({
+        const newUser = yield prisma_1.default.staff.create({
             data: {
                 name,
                 email: email || null, // Set email to null if it's not provided
@@ -65,6 +65,9 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(500).json({ error: "Internal Server Error" });
         return;
     }
+    finally {
+        yield prisma_1.default.$disconnect();
+    }
 });
 exports.signup = signup;
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -76,7 +79,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 message: "please provide email and password"
             });
         }
-        const user = yield prisma_1.default.user.findUnique({
+        const user = yield prisma_1.default.staff.findUnique({
             where: { email }
         });
         if (!user) {
@@ -139,6 +142,9 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             error
         });
         return;
+    }
+    finally {
+        yield prisma_1.default.$disconnect();
     }
 });
 exports.login = login;
