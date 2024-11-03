@@ -8,6 +8,21 @@ import adduserRouter from "./routes/addUseRoute"
 import cookiParser from "cookie-parser"
 import jwt from 'jsonwebtoken';
 import { userPyload } from "./types/types";
+import { createClient } from "redis";
+import {fatchFromDB} from "./helper/fatchFromDB"
+import cron from "node-cron"
+export const Redisclient = createClient();
+Redisclient.connect();
+Redisclient.on('error', (err) => console.log('Redis Client Error', err));
+async function cacheItems() {
+    const items = await fatchFromDB();
+    await Redisclient.set('menue:items', JSON.stringify(items), {'EX': 14400}); // Expire in 4 hours
+    console.log('Items cached in Redis');
+  
+}
+cacheItems();
+cron.schedule('0 */4 * * *', cacheItems);
+
 const port = 3000;
 const app = express();
 const server = http.createServer(app);
@@ -17,15 +32,12 @@ app.use(cookiParser());
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/item", itemRouter)
 app.use("/api/v1", adduserRouter)
-app.use("/api/v1/order",orderRouter)
+app.use("/api/v1/order", orderRouter)
 app.get("/", (req: Request, res: Response) => {
     res.send("hello how are you");
 })
-// interface client {
-//     ws: WebSocket;
-//     user: object;
-// }
-// export let clients: client[] = []
+
+
 export const clients = new Map<string, { ws: WebSocket, user: userPyload }>();
 
 wss.on("connection", (ws: WebSocket, req) => {
@@ -44,11 +56,11 @@ wss.on("connection", (ws: WebSocket, req) => {
         if (!process.env.JWT_SECRET) {
             throw new Error("JWT_SECRET is not defined in the environment variables");
             ws.close();
-          }
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)as userPyload;
+        }
+        const decoded = jwt.verify(token, process.env.JWT_SECRET) as userPyload;
 
         const user = { ...decoded }
-        if(!user){
+        if (!user) {
             console.error("User ID missing in token");
             ws.close();
             return;

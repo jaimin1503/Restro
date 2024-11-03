@@ -20,9 +20,9 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { name, email, password, phoneNumber, role } = req.body;
-        if (!name || !phoneNumber) {
+        if (!name || !phoneNumber || !password || !email) {
             res.status(400).json({
-                message: "Name and phone number must be provided.",
+                message: "please provide all credentials",
             });
             return;
         }
@@ -35,15 +35,12 @@ const signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 return;
             }
         }
-        let hashedPassword = null;
-        if (password) {
-            const saltRounds = 10;
-            hashedPassword = yield bcrypt_1.default.hash(password, saltRounds);
-        }
+        const saltRounds = 10;
+        let hashedPassword = yield bcrypt_1.default.hash(password, saltRounds);
         const newUser = yield prisma_1.default.staff.create({
             data: {
                 name,
-                email: email || null, // Set email to null if it's not provided
+                email: email, // Set email to null if it's not provided
                 password: hashedPassword, // Hashed password or null
                 role: role || client_1.Role.USER,
                 phoneNumber,

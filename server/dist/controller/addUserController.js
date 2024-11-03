@@ -26,6 +26,14 @@ const addUserByAdmin = (req, res) => __awaiter(void 0, void 0, void 0, function*
             });
             return;
         }
+        const phoneRegex = /^[6-9]\d{9}$/;
+        if (phoneNumber.length != 10 && !phoneRegex.test(phoneNumber)) {
+            res.status(400).json({
+                success: false,
+                message: "please provide valide mobile number"
+            });
+            return;
+        }
         const userid = parseInt((_b = req.user) === null || _b === void 0 ? void 0 : _b.userid);
         const user = yield prisma_1.default.staff.findUnique({
             where: { id: userid },
