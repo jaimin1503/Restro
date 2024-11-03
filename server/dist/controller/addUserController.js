@@ -26,8 +26,16 @@ const addUserByAdmin = (req, res) => __awaiter(void 0, void 0, void 0, function*
             });
             return;
         }
+        const phoneRegex = /^[6-9]\d{9}$/;
+        if (phoneNumber.length != 10 && !phoneRegex.test(phoneNumber)) {
+            res.status(400).json({
+                success: false,
+                message: "please provide valide mobile number"
+            });
+            return;
+        }
         const userid = parseInt((_b = req.user) === null || _b === void 0 ? void 0 : _b.userid);
-        const user = yield prisma_1.default.user.findUnique({
+        const user = yield prisma_1.default.staff.findUnique({
             where: { id: userid },
         });
         if (!user) {
@@ -38,7 +46,7 @@ const addUserByAdmin = (req, res) => __awaiter(void 0, void 0, void 0, function*
             return;
         }
         const hashpassword = yield bcrypt_1.default.hash(email, 10);
-        const addeduser = yield prisma_1.default.user.create({
+        const addeduser = yield prisma_1.default.staff.create({
             data: {
                 name,
                 email,
@@ -60,6 +68,9 @@ const addUserByAdmin = (req, res) => __awaiter(void 0, void 0, void 0, function*
             message: "error accure in addCouter",
             error
         });
+    }
+    finally {
+        yield prisma_1.default.$disconnect();
     }
 });
 exports.addUserByAdmin = addUserByAdmin;
@@ -89,7 +100,7 @@ const changePassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
             return;
         }
         const userid = parseInt((_b = req.user) === null || _b === void 0 ? void 0 : _b.userid);
-        const user = yield prisma_1.default.user.findUnique({
+        const user = yield prisma_1.default.staff.findUnique({
             where: { id: userid }
         });
         if (!user) {
@@ -111,7 +122,7 @@ const changePassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         }
         const saltRounds = 10;
         const hashedPassword = yield bcrypt_1.default.hash(newPassword, saltRounds);
-        const updatedPassword = yield prisma_1.default.user.update({
+        const updatedPassword = yield prisma_1.default.staff.update({
             where: { id: user.id },
             data: {
                 password: hashedPassword
@@ -129,6 +140,9 @@ const changePassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
             message: "error accure in changePassword",
             error
         });
+    }
+    finally {
+        yield prisma_1.default.$disconnect();
     }
 });
 exports.changePassword = changePassword;

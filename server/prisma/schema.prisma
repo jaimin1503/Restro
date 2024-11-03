@@ -42,8 +42,8 @@ enum Category {
 model Staff {
   id         Int      @id @default(autoincrement())
   name       String
-  email      String? @unique
-  password   String?
+  email      String @unique
+  password   String
   phoneNumber String @unique
   role       Role     @default(USER)
   createdAt  DateTime @default(now())
@@ -54,7 +54,7 @@ model User {
   phoneNumber String @unique
   verfifyed Boolean @default(false)
   orders Order[]
-  createdAt DateTime
+  createdAt DateTime @default(now())
 }
 model otpCode {
   id Int @default(autoincrement())

@@ -13,9 +13,9 @@ interface SignupRequest {
 export const signup = async (req: Request, res: Response): Promise<void> => {
     try {
         const { name, email, password, phoneNumber, role }: SignupRequest = req.body;
-        if (!name || !phoneNumber) {
+        if (!name || !phoneNumber || !password || !email) {
             res.status(400).json({
-                message: "Name and phone number must be provided.",
+                message: "please provide all credentials",
             });
             return;
         }
@@ -28,15 +28,14 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
                 return;
             }
         }
-        let hashedPassword: string | null = null;
-        if (password) {
-            const saltRounds = 10;
-            hashedPassword = await bcrypt.hash(password, saltRounds);
-        }
+
+        const saltRounds = 10;
+        let hashedPassword = await bcrypt.hash(password, saltRounds);
+
         const newUser = await prisma.staff.create({
             data: {
                 name,
-                email: email || null, // Set email to null if it's not provided
+                email: email, // Set email to null if it's not provided
                 password: hashedPassword, // Hashed password or null
                 role: role || Role.USER,
                 phoneNumber,

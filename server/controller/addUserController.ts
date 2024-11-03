@@ -14,6 +14,14 @@ export const addUserByAdmin = async (req: CustomRequest, res: Response): Promise
             })
             return
         }
+        const phoneRegex = /^[6-9]\d{9}$/;
+        if(phoneNumber.length!=10 && !phoneRegex.test(phoneNumber)){
+            res.status(400).json({
+                success:false,
+                message:"please provide valide mobile number"
+            })
+            return
+        }   
         const userid = parseInt(req.user?.userid)
         const user = await prisma.staff.findUnique({
             where: { id: userid },
