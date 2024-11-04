@@ -12,12 +12,19 @@ interface OrderInput {
     phoneNumber: string;
     items: Item[];
     totalPrice: string;
-    tabel: string;
+    // tabel: string;
 }
 export const order = async (req: Request, res: Response): Promise<void> => {
     try {
-        const { name, phoneNumber, items, totalPrice, tabel } = req.body as OrderInput;
-
+        const { name, phoneNumber, items, totalPrice } = req.body as OrderInput;
+        const tabel=req.query.tabel as string;
+        if(!tabel){
+            res.status(400).json({
+                success: false,
+                message: "please provaid tabel number"
+            })
+            return
+        }
         if (!name || !phoneNumber || !Array.isArray(items) || items.length === 0) {
             res.status(400).json({
                 success: false,
