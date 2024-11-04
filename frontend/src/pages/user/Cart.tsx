@@ -46,7 +46,9 @@ const Cart = () => {
 					</div>
 				</div>
 			)}
-			<button className="bg-primary text-white px-4 py-2 rounded ml-auto mt-2">Place Order</button>
+			{
+				cartItems.length > 0 && (<button className="bg-primary text-white px-4 py-2 rounded ml-auto mt-2">Place Order</button>)
+			}
 		</div>
 	);
 };

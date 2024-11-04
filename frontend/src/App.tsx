@@ -4,6 +4,8 @@ import UserNavigation from './pages/user/UserNavigation'
 import Menu from './pages/user/Menu'
 import Home from './pages/user/Home'
 import Cart from './pages/user/Cart'
+import Search from './pages/user/Search'
+import Profile from './pages/user/Profile'
 
 function App() {
 
@@ -16,6 +18,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/menu/:category" element={<Menu />} />
           <Route path='/cart' element={<Cart />} />
+          <Route path="/search" element={<Search />} />
+          <Route path='/profile' element={<Profile />} />
         </Routes>
       </div>
     </>
