@@ -1,3 +1,5 @@
+import { blue } from '@mui/material/colors';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ["class"],
@@ -10,8 +12,16 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       colors: {
-        foreground: "#FBFADA",
-        background: "#ADBC9F",
+        foreground: "#",
+        background: "#ffffff",
+
+          blue:{
+            100:"#F0F8FF",
+            400:"#6CB4EE",
+            600:"#318CE7",
+            700:"#0066b2",
+          },
+
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",

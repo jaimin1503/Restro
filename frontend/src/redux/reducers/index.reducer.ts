@@ -26,6 +26,9 @@ export interface RootState {
   };
   cart:{
     cartItems:Item[]
+    totalQuantity:number
   }
+
+  total: number;
 
 }

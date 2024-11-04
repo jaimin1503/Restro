@@ -1,15 +1,23 @@
 import Veg from "@/assets/svgs/Veg";
 import NonVeg from "@/assets/svgs/NonVeg";
+import { Item } from "@/config/types";
 
-const ItemCard = ({ item, itemQuantities, handleAddToCart, handleRemoveFromCart }: any) => {
+
+interface ItemCardProps {
+	item: Item;
+	itemQuantities: { [itemId: number]: number };
+	handleAddToCart: (itemId: number) => void;
+	handleRemoveFromCart: (itemId: number) => void;
+}
+const ItemCard = ({ item, itemQuantities, handleAddToCart, handleRemoveFromCart }: ItemCardProps) => {
 	return (
-		<div key={item.id} className="card-container flex items-center bg-foreground rounded-lg my-2 p-2 shadow-md relative">
+		<div key={item.id} className="card-container flex items-center bg-blue-100 rounded-lg my-2 p-2 shadow-md relative">
 			<img src={item.itemImage} alt={item.name} className="card-image w-30 h-30 object-cover rounded-sm" />
 
 			<div className="card-content flex flex-col flex-1 ml-4">
 				<div className="font-bold text-lg">{item.name}</div>
 				<div className="flex">
-					{item?.ingredients?.map((ingredient: any) => (
+					{item?.ingredients?.map((ingredient: string) => (
 						<div key={ingredient} className="text-xs flex flex-row text-gray-500">
 							{ingredient + ", "}
 						</div>
@@ -21,17 +29,17 @@ const ItemCard = ({ item, itemQuantities, handleAddToCart, handleRemoveFromCart 
 				</div>
 
 				{itemQuantities[item.id] > 0 ? (
-					<div className="quantity-controls flex items-center space-x-2 mt-2">
-						<button onClick={() => handleRemoveFromCart(item.id)} className="bg-background py-1 px-2 rounded-lg text-xs font-semibold">
+					<div className="quantity-controls flex items-center space-x-2 mt-2 border-2 rounded-md border-red-300 w-fit">
+						<button onClick={() => handleRemoveFromCart(item.id)} className=" py-1 px-2 rounded-lg text-xs font-semibold">
 							-
 						</button>
 						<span className="font-semibold">{itemQuantities[item.id]}</span>
-						<button onClick={() => handleAddToCart(item.id)} className="bg-primary py-1 px-2 rounded-lg text-xs font-semibold ">
+						<button onClick={() => handleAddToCart(item.id)} className="bg- py-1 px-2 rounded-lg text-xs font-semibold ">
 							+
 						</button>
 					</div>
 				) : (
-					<button onClick={() => handleAddToCart(item.id)} className="bg-primary text-white py-1 px-2 rounded-lg text-xs font-semibold mt-2 w-16">
+					<button onClick={() => handleAddToCart(item.id)} className="bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded-lg text-xs font-semibold mt-2 w-16">
 						Add +
 					</button>
 				)}
