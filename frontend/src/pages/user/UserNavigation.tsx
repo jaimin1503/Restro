@@ -3,7 +3,6 @@ import { FaRegUser } from "react-icons/fa";
 import { BsCart3 } from "react-icons/bs";
 import { IoSearch } from "react-icons/io5";
 import { LuHome } from "react-icons/lu";
-import { BiFoodMenu } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -40,11 +39,6 @@ const UserNavigation = () => {
 			LinkTo: "/",
 		},
 		{
-			navImage: BiFoodMenu,
-			navName: "Menu",
-			LinkTo: "/menu",
-		},
-		{
 			navImage: IoSearch,
 			navName: "Search",
 			LinkTo: "/search",
@@ -58,13 +52,13 @@ const UserNavigation = () => {
 
 	return (
 		<nav>
-			<div className="h-[100px] shadow-md w-screen items-center hidden sm:flex bg-blue-600">
+			<div className="h-[100px] shadow-md w-screen items-center hidden sm:flex bg-blue-100">
 				<img
 					className="h-[55px] w-[55px] rounded-full object-cover ml-20 cursor-pointer hover:rotate-2"
 					src={logo}
 					alt="logo"
 				/>
-				<h1 className="text-3xl font-bold ml-5 cursor-pointer text-white">Restro</h1>
+				<h1 className="text-3xl font-bold ml-5 cursor-pointer text-black">Restro</h1>
 				<div className="ml-auto flex">
 					<FaRegUser className="text-xl mx-4 cursor-pointer" />
 					<BsCart3 className="text-xl mx-4 cursor-pointer" />
@@ -72,13 +66,13 @@ const UserNavigation = () => {
 				</div>
 			</div>
 
-			<div className="sm:hidden h-[70px] shadow-md w-screen flex items-center fixed bg-blue-600">
+			<div className="sm:hidden h-[70px] shadow-md w-screen flex items-center fixed bg-blue-100">
 				<img
 					className="h-[40px] w-[40px] rounded-full object-cover ml-7 cursor-pointer"
 					src={logo}
 					alt="logo"
 				/>
-				<h1 className="text-2xl font-bold ml-2 cursor-pointer text-white">Restro</h1>
+				<h1 className="text-2xl font-bold ml-2 cursor-pointer text-black">Restro</h1>
 			</div>
 
 			<div className={`h-[50px] sm:hidden w-screen flex items-center bottom-0 fixed mb-[50px] bg-blue-400 text-white`}>
@@ -89,13 +83,13 @@ const UserNavigation = () => {
 				</Link>
 			</div>
 
-			<div className="sm:hidden h-[50px] shadow-lg w-screen flex items-center justify-evenly fixed bottom-0 bg-blue-600">
+			<div className="sm:hidden h-[50px] shadow-lg w-screen flex items-center justify-evenly fixed bottom-0 bg-blue-100">
 				{navItems.map((item, index) => (
 					<Link
 						to={item.LinkTo}
 						key={index}
 						className={`flex flex-col items-center justify-center cursor-pointer ${
-							activeNav === item.LinkTo ? "text-blue-700 font-bold" : "text-white"
+							activeNav === item.LinkTo ? "text-blue-700 font-bold" : "text-black"
 						}`}
 						onClick={() => setActiveNav(item.LinkTo)}
 					>
