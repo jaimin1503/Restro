@@ -5,6 +5,7 @@ import authRouter from "./routes/authRoute";
 import itemRouter from "./routes/itemRoute"
 import orderRouter from "./routes/orderRoute"
 import adduserRouter from "./routes/addUseRoute"
+import generateBillRoute from "./routes/generateBillRoute"
 import cookiParser from "cookie-parser"
 import jwt from 'jsonwebtoken';
 import { userPyload } from "./types/types";
@@ -33,6 +34,7 @@ app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/item", itemRouter)
 app.use("/api/v1", adduserRouter)
 app.use("/api/v1/order", orderRouter)
+app.use("/api/v1",generateBillRoute)
 app.get("/", (req: Request, res: Response) => {
     res.send("hello how are you");
 })

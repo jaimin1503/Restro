@@ -20,6 +20,7 @@ const authRoute_1 = __importDefault(require("./routes/authRoute"));
 const itemRoute_1 = __importDefault(require("./routes/itemRoute"));
 const orderRoute_1 = __importDefault(require("./routes/orderRoute"));
 const addUseRoute_1 = __importDefault(require("./routes/addUseRoute"));
+const generateBillRoute_1 = __importDefault(require("./routes/generateBillRoute"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const redis_1 = require("redis");
@@ -47,6 +48,7 @@ app.use("/api/v1/auth", authRoute_1.default);
 app.use("/api/v1/item", itemRoute_1.default);
 app.use("/api/v1", addUseRoute_1.default);
 app.use("/api/v1/order", orderRoute_1.default);
+app.use("/api/v1", generateBillRoute_1.default);
 app.get("/", (req, res) => {
     res.send("hello how are you");
 });
