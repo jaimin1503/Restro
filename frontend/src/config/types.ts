@@ -1,38 +1,45 @@
-export interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-}
+// types.ts
 
 export interface User {
   id: number;
   name: string;
   email: string;
-  role: string;
+  password: string;
   phoneNumber: string;
+  role: "USER" | "CHEF" | "COUNTER" | "ADMIN";
   createdAt: string;
 }
 
-export interface Item {
+export interface OrderItem {
   id: number;
-  name: string;
-  itemCode: string;
-  itemImage: string;
+  itemId: number;
+  quantity: number;
   price: number;
-  categories: string[];
 }
 
 export interface Order {
   id: number;
   userId: number;
-  status: string;
+  status: "PAID" | "PENDING" | "FAILED";
   createdAt: string;
-  items: CartItem[];
+  items: OrderItem[];
 }
 
-export interface Cart {
-  cartItems: CartItem[];
-  total: number;
-  loading: boolean;
+export interface Item {
+  id: number;
+  name: string;
+  ingredients: string[];
+  itemCode: string;
+  itemImage: string;
+  price: number;
+  veg: boolean;
+  categories: string[];
+  orderItems: OrderItem[];
+  quantity?: number;
+}
+
+export interface Category {
+  id: number;
+  name: string;
+  categoryImage: string;
 }
