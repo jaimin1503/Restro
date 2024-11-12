@@ -26,6 +26,9 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const redis_1 = require("redis");
 const fatchFromDB_1 = require("./helper/fatchFromDB");
 const node_cron_1 = __importDefault(require("node-cron"));
+const dotenv_1 = __importDefault(require("dotenv"));
+const cors_1 = __importDefault(require("cors"));
+dotenv_1.default.config();
 exports.Redisclient = (0, redis_1.createClient)();
 exports.Redisclient.connect();
 exports.Redisclient.on('error', (err) => console.log('Redis Client Error', err));
@@ -42,6 +45,13 @@ const port = 3000;
 const app = (0, express_1.default)();
 const server = http_1.default.createServer(app);
 const wss = new ws_1.WebSocketServer({ server });
+const corsOptions = {
+    origin: ['http://localhost:5173', 'https://yourfrontend.com'], // Allowed origins
+    methods: 'GET, POST, PUT, DELETE, OPTIONS',
+    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+    credentials: true, // Allow credentials (optional)
+};
+app.use((0, cors_1.default)(corsOptions));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use("/api/v1/auth", authRoute_1.default);

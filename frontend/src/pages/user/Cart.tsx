@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { incrementQuantity, decrementQuantity, removeFromCart } from "../../redux/slices/cartSlice";
 import { RootState } from "@/redux/reducers/index.reducer";
-
+incrementQuantity
 const Cart = () => {
 	const  {cartItems:items}  = useSelector((state:RootState) => state.cart);
 	const dispatch = useDispatch();

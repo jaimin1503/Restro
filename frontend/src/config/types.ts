@@ -3,10 +3,10 @@
 export interface User {
   id: number;
   name: string;
-  email: string;
+  // email: string;
   password: string;
   phoneNumber: string;
-  role: "USER" | "CHEF" | "COUNTER" | "ADMIN";
+  // role: "USER" | "CHEF" | "COUNTER" | "ADMIN";
   createdAt: string;
 }
 

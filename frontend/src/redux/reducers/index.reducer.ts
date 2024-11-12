@@ -1,11 +1,13 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import authReducer from "../slices/authSlice";
 import cartReducer from "../slices/cartSlice";
+import itemReducer from "../slices/itemSlice"
 import { Item } from "@/config/types";
 
 const rootReducers = combineReducers({
   auth: authReducer,
   cart: cartReducer,
+  item:itemReducer
 });
 export default rootReducers;
 
@@ -28,7 +30,7 @@ export interface RootState {
     cartItems:Item[]
     totalQuantity:number
   }
-
+  item:Item[]
   total: number;
 
 }
