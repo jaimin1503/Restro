@@ -12,12 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.order = void 0;
+exports.orderStatus = exports.paymentStatus = exports.order = void 0;
 const prisma_1 = __importDefault(require("../prismaconfig/prisma"));
 const __1 = require("..");
 const order = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { name, phoneNumber, items, totalPrice, tabel } = req.body;
+        const { name, phoneNumber, items, totalPrice } = req.body;
+        const tabel = req.query.tabel;
+        if (!tabel) {
+            res.status(400).json({
+                success: false,
+                message: "please provaid tabel number"
+            });
+            return;
+        }
         if (!name || !phoneNumber || !Array.isArray(items) || items.length === 0) {
             res.status(400).json({
                 success: false,
@@ -83,3 +91,71 @@ const order = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.order = order;
+const paymentStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { orderId, status } = req.body;
+        const order = yield prisma_1.default.order.findUnique({
+            where: { id: orderId }
+        });
+        if (!order) {
+            res.status(400).json({
+                success: false,
+                message: "order not found"
+            });
+            return;
+        }
+        const updatedOrder = yield prisma_1.default.order.update({
+            where: { id: orderId },
+            data: { payment: status }
+        });
+        res.status(200).json({
+            success: true,
+            message: "payment status updated successfully",
+            updatedOrder
+        });
+        return;
+    }
+    catch (error) {
+        res.status(400).json({
+            success: false,
+            message: "error accure in paymentStatus",
+            error
+        });
+        return;
+    }
+});
+exports.paymentStatus = paymentStatus;
+const orderStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { orderId, status } = req.body;
+        const order = yield prisma_1.default.order.findUnique({
+            where: { id: orderId }
+        });
+        if (!order) {
+            res.status(400).json({
+                success: false,
+                message: "order not found"
+            });
+            return;
+        }
+        const updatedOrder = yield prisma_1.default.order.update({
+            where: { id: orderId },
+            data: { status }
+        });
+        res.status(200).json({
+            success: true,
+            message: "payment status updated successfully",
+            updatedOrder
+        });
+        return;
+    }
+    catch (error) {
+        res.status(400).json({
+            success: false,
+            message: "error accure in paymentStatus",
+            error
+        });
+        return;
+    }
+});
+exports.orderStatus = orderStatus;

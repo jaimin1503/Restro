@@ -29,7 +29,8 @@ const ItemCard = ({
         <div className="font-bold text-lg">{item.name}</div>
         <div className="flex">
           <div className="text-xs flex flex-row text-gray-500">
-            {item.ingredients.join(", ")}
+            {/* {item.ingredients.join(", ")} */}
+            tomato
           </div>
         </div>
         <div className="text-sm text-gray-500">₹ {item.price}</div>

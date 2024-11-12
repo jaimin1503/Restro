@@ -5,12 +5,16 @@ import authRouter from "./routes/authRoute";
 import itemRouter from "./routes/itemRoute"
 import orderRouter from "./routes/orderRoute"
 import adduserRouter from "./routes/addUseRoute"
+import generateBillRoute from "./routes/generateBillRoute"
 import cookiParser from "cookie-parser"
 import jwt from 'jsonwebtoken';
 import { userPyload } from "./types/types";
 import { createClient } from "redis";
 import {fatchFromDB} from "./helper/fatchFromDB"
 import cron from "node-cron"
+import dotenv from "dotenv"
+import cors from "cors"
+dotenv.config()
 export const Redisclient = createClient();
 Redisclient.connect();
 Redisclient.on('error', (err) => console.log('Redis Client Error', err));
@@ -27,12 +31,20 @@ const port = 3000;
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server })
+const corsOptions = {
+    origin: ['http://localhost:5173', 'https://yourfrontend.com'], // Allowed origins
+    methods: 'GET, POST, PUT, DELETE, OPTIONS',
+    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+    credentials: true, // Allow credentials (optional)
+  };
+  app.use(cors(corsOptions))
 app.use(express.json());
 app.use(cookiParser());
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/item", itemRouter)
 app.use("/api/v1", adduserRouter)
 app.use("/api/v1/order", orderRouter)
+app.use("/api/v1",generateBillRoute)
 app.get("/", (req: Request, res: Response) => {
     res.send("hello how are you");
 })

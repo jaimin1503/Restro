@@ -1,19 +1,20 @@
 import { useSelector, useDispatch } from "react-redux";
 import { setCartItems } from "../../redux/slices/cartSlice.ts";
 import { useState, useEffect } from "react";
-import { items } from "../../config/data";
+// import { items } from "../../config/data";
 import { useParams } from "react-router-dom";
 import ItemCard from "@/components/ItemCard.tsx";
 import { RootState } from "@/redux/reducers/index.reducer.ts";
 import { Item } from "@/config/types.ts";
 
 const Menu = () => {
+	const items=useSelector((state:RootState)=>state.item)
 	const dispatch = useDispatch();
 	const cartItems = useSelector((state: RootState) => state.cart.cartItems) as Item[]; // Specify the type as Item[]
 	const [itemQuantities, setItemQuantities] = useState<{ [key: number]: number }>({});
 	const { category } = useParams<{ category: string }>(); // Define category as a string parameter
 	const [filteredItems, setFilteredItems] = useState<Item[]>([]); // Define filteredItems type as Item[]
-
+	console.log("items inside menu",items);
 	// Update item quantities based on cart items
 	useEffect(() => {
 		const quantities = cartItems.reduce((acc: { [key: number]: number }, item: Item) => {
@@ -53,7 +54,7 @@ const Menu = () => {
 			dispatch(
 				setCartItems(
 					cartItems.map(item =>
-						item.id === itemId ? { ...item, quantity: (item.quantity || 0) - 1 } : item
+						item.id === itemId ? { ...item, quantity: (item.quantity?item.quantity-1:0) } : item
 					)
 				)
 			);
@@ -65,16 +66,17 @@ const Menu = () => {
 
 	// Filter items based on category
 	useEffect(() => {
-		const filteredItems = items.filter((item: Item) => item.categories.includes(category || ""));
+		const filteredItems = items.filter((item: Item) => item.categories.includes(category?.toUpperCase() || ""));
+		console.log("filteredItems",filteredItems)
 		setFilteredItems(filteredItems);
 	}, [category]);
-
+	
 	return (
 		<div>
 			<div className="p-2">
 				{filteredItems.map(item => (
 					<ItemCard
-						key={item.id}
+						key={item?.id}
 						item={item}
 						itemQuantities={itemQuantities}
 						handleAddToCart={handleAddToCart}
